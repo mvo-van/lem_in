@@ -3,25 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvo-van- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/11 16:28:15 by mvo-van-          #+#    #+#             */
-/*   Updated: 2018/11/20 15:51:54 by mvo-van-         ###   ########.fr       */
+/*   Created: 2018/08/09 23:39:15 by midounhoc         #+#    #+#             */
+/*   Updated: 2019/04/16 15:24:07 by hmidoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 char	*ft_strrchr(const char *s, int c)
 {
-	size_t	len;
-	char	*s2;
+	int		i;
+	char	*find;
 
-	s2 = (char *)s;
-	len = ft_strlen(s2);
-	while (s2[len] != s2[0] && s2[len] != c)
-		len--;
-	if (s2[len] == c)
-		return (&s2[len]);
-	return (NULL);
+	find = NULL;
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			find = (char *)(s + i);
+		i++;
+	}
+	if (c == '\0')
+		return ((char *)(s + i));
+	return (find);
 }

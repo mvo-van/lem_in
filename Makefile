@@ -1,38 +1,51 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/11/17 16:27:26 by mvo-van-          #+#    #+#              #
-#    Updated: 2020/01/14 15:09:57 by mvo-van-         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME = lem_in
 
-NAME	 		=	lem_in
-LIB				=	./libft/
-SRC				=	srcs/lem_in.c \
-					srcs/parsing.c \
-					srcs/pars_salle.c \
-					srcs/pars_tubes.c \
-					srcs/list.c \
+SRC =	lem_in.c \
+		get_path.c \
+		bfs.c \
+		free.c \
+		count.c \
+		list.c \
+		pars_salle.c \
+		pars_tubes.c \
+		parsing.c
 
-OBJ    			=	$(SRC:.c=.o)
-CFLAGS		   	=	-Wall -Werror -Wextra -I includes
+OBJ = $(patsubst %.c, obj/%.o, $(SRC))
 
-all : $(NAME)
+HEADER = ./includes/lem_in.h \
+		 ./libft/includes/libft.h
 
-$(NAME): $(OBJ)
-	make -C $(LIB)
-	gcc -o  $(NAME) $(OBJ) $(CFLAGS) libft/libft.a
+INCLUDE_PATH = -I ./includes -I ./libft/includes
+
+LIBFT =	libft/libft.a
+
+CC = gcc
+
+FLAGS = -Wall -Wextra -Werror -g
+
+all: $(NAME)
+
+$(NAME): $(LIBFT) $(OBJ) $(HEADER)
+	$(CC) $(FLAGS) $(INCLUDE_PATH) $(OBJ) -o $(NAME) $(LIBFT)
+
+obj:
+	mkdir -p obj
+
+obj/%.o: src/%.c $(LIBFT) | obj
+	$(CC) $(FLAGS) -c $< -o $@ $(INCLUDE_PATH)
+
+
+$(LIBFT):
+	make -C ./libft/
 
 clean:
-		make -C $(LIB) clean
-	    rm -f $(OBJ)
+	rm -rf obj
+	make clean -C ./libft/
+
 fclean: clean
-		make -C $(LIB) fclean
-	    rm -f $(NAME)
+	rm -f $(NAME)
+	make fclean -C ./libft/
+
 re: fclean all
 
-.PHONY : all, $(NAME), clean, fclean, re
+.PHONY : all, re, clean, flcean

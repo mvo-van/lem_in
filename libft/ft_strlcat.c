@@ -3,39 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvo-van- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/11 18:46:06 by mvo-van-          #+#    #+#             */
-/*   Updated: 2018/11/20 19:00:03 by mvo-van-         ###   ########.fr       */
+/*   Created: 2018/07/11 00:31:24 by hmidoun           #+#    #+#             */
+/*   Updated: 2019/04/16 15:23:51 by hmidoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+size_t	ft_strlcat(char *dest, const char *src, size_t size)
 {
-	size_t	len_dst;
-	size_t	len_src;
-	size_t	j;
+	char		*cp_dest;
+	const char	*cp_src;
+	int			cp_size;
+	int			dest_lenth;
 
-	len_dst = ft_strlen(dst);
-	len_src = ft_strlen(src);
-	j = 0;
-	if (size == 0)
+	cp_dest = dest;
+	cp_src = src;
+	cp_size = size;
+	while (cp_size-- != 0 && *cp_dest != '\0')
+		cp_dest++;
+	dest_lenth = cp_dest - dest;
+	cp_size = size - dest_lenth;
+	if (cp_size == 0)
+		return (dest_lenth + ft_strlen(cp_src));
+	while (*cp_src != '\0')
 	{
-		dst[len_dst] = '\0';
-		return (len_src);
-	}
-	else if (len_dst > size)
-		return (len_src + size);
-	else
-	{
-		while (src[j] && j + len_dst < size - 1)
+		if (cp_size != 1)
 		{
-			dst[len_dst + j] = src[j];
-			j++;
+			*cp_dest++ = *cp_src;
+			cp_size--;
 		}
+		cp_src++;
 	}
-	dst[len_dst + j] = '\0';
-	return (len_dst + len_src);
+	*cp_dest = '\0';
+	return (dest_lenth + (cp_src - src));
 }

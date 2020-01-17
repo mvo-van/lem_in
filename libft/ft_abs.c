@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_abs.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvo-van- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 03:56:32 by mvo-van-          #+#    #+#             */
-/*   Updated: 2018/11/28 16:26:42 by mvo-van-         ###   ########.fr       */
+/*   Created: 2019/08/06 00:31:43 by jaelee            #+#    #+#             */
+/*   Updated: 2019/08/06 00:43:30 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int		ft_abs(int n)
+#include "libft.h"
+#include <stdint.h>
+
+int		ft_abs(int nb)
 {
-	return ((n < 0) ? -n : n);
+	if (nb == INT_MIN)
+		return (INT_MAX);
+	return (nb < 0 ? -nb : nb);
 }

@@ -3,40 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvo-van- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/10 16:12:10 by mvo-van-          #+#    #+#             */
-/*   Updated: 2018/11/28 16:44:43 by mvo-van-         ###   ########.fr       */
+/*   Created: 2018/08/12 13:24:25 by midounhoc         #+#    #+#             */
+/*   Updated: 2019/04/16 15:23:11 by hmidoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-void	*ft_memmove(void *dst, const void *src, size_t len)
+void	*ft_memmove(void *dst, const void *src, size_t n)
 {
-	int		i;
-	char	*dst2;
-	char	*src2;
+	char *tmp;
 
-	dst2 = (char *)dst;
-	src2 = (char *)src;
-	if (dst <= src)
+	tmp = ft_memalloc(n);
+	if (tmp)
 	{
-		i = 0;
-		while (i < (int)len)
-		{
-			dst2[i] = src2[i];
-			i++;
-		}
+		ft_memcpy(tmp, src, n);
+		ft_memcpy(dst, tmp, n);
 	}
-	else
-	{
-		i = len - 1;
-		while (i >= 0)
-		{
-			dst2[i] = src2[i];
-			i--;
-		}
-	}
-	return (dst2);
+	free(tmp);
+	return (dst);
 }

@@ -3,39 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvo-van- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/27 01:34:54 by mvo-van-          #+#    #+#             */
-/*   Updated: 2018/11/28 16:32:35 by mvo-van-         ###   ########.fr       */
+/*   Created: 2019/02/14 14:16:17 by midounhoc         #+#    #+#             */
+/*   Updated: 2019/04/16 15:22:58 by hmidoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem))
 {
-	t_list	*ret;
-	t_list	*new;
-	t_list	*sav;
+	t_list *tmp;
 
-	ret = NULL;
-	if (lst)
-	{
-		while (lst)
-		{
-			if (!(new = (t_list*)malloc(sizeof(t_list))))
-			{
-				ft_free_ret(ret);
-				return (NULL);
-			}
-			new = (*f)(lst);
-			if (ret == NULL)
-				ret = new;
-			else
-				sav->next = new;
-			sav = new;
-			lst = lst->next;
-		}
-	}
-	return (ret);
+	if (!lst)
+		return (NULL);
+	tmp = f(lst);
+	tmp->next = ft_lstmap(lst->next, *f);
+	return (tmp);
 }

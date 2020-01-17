@@ -3,36 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvo-van- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/11 17:06:06 by mvo-van-          #+#    #+#             */
-/*   Updated: 2018/11/27 05:43:00 by mvo-van-         ###   ########.fr       */
+/*   Created: 2018/07/06 12:48:51 by hmidoun           #+#    #+#             */
+/*   Updated: 2019/07/24 16:17:45 by hmidoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
-
 int		ft_atoi(const char *str)
 {
-	long	i;
-	long	s;
-	long	nb;
+	int		i;
+	int		neg;
+	int		number;
 
-	nb = 0;
+	number = 0;
+	neg = 1;
 	i = 0;
-	s = 1;
-	while (ft_isspace(str[i]))
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
 		i++;
-	if ((str[i] == '+') || (str[i] == '-'))
+	if (*(str + i) == '-')
 	{
-		if (str[i] == '-')
-			s = -1;
+		neg = -1;
 		i++;
 	}
-	while ((str[i] >= '0') && (str[i] <= '9'))
+	else if (*(str + i) == '+')
+		i++;
+	while (*(str + i) >= '0' && *(str + i) <= '9')
 	{
-		nb = nb * 10 + (str[i] - '0');
+		number = number * 10 + *(str + i) - '0';
 		i++;
 	}
-	return (nb * s);
+	return (number * neg);
 }

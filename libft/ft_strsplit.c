@@ -3,39 +3,102 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jaelee <jaelee@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/22 10:45:41 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/10 13:16:55 by mvo-van-         ###   ########.fr       */
+/*   Created: 2019/01/31 15:26:21 by midounhoc         #+#    #+#             */
+/*   Updated: 2019/08/12 23:11:25 by jaelee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-char		**ft_strsplit(char const *s, char c)
+static int		nbr_word(char const *str, char c)
 {
-	char	**tab;
-	int		i;
-	int		j;
+	int j;
+	int car;
+	int i;
+
+	i = 0;
+	car = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == c)
+			car = 0;
+		else if (car == 0)
+		{
+			j++;
+			car = 1;
+		}
+		i++;
+	}
+	return (j);
+}
+
+static int		ft_strlencar(char const *str, char c)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0' && str[i] != c)
+	{
+		i++;
+	}
+	return (i);
+}
+
+static char		*ft_strcpycar(char *dest, char const *src, char c)
+{
+	int i;
+
+	i = 0;
+	while (src[i] != '\0' && src[i] != c)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+static char		*ft_strdupcar(char const *src, char c)
+{
+	char	*tmp;
 	int		len;
 
-	if (!s || !(tab = (char**)ft_memalloc(sizeof(char*) * (ft_word(s, c) + 1))))
+	len = ft_strlencar(src, c);
+	tmp = (char*)malloc(sizeof(char) * (len + 1));
+	if (tmp == NULL)
 		return (NULL);
-	len = 0;
+	tmp = ft_strcpycar(tmp, src, c);
+	return (tmp);
+}
+
+char			**ft_strsplit(char const *str, char c)
+{
+	char	**tab_str;
+	int		car;
+	int		j;
+
 	j = 0;
-	while (s[len])
+	car = 0;
+	if (!str)
+		return (NULL);
+	tab_str = (char **)malloc(sizeof(char *) * (nbr_word(str, c) + 1));
+	if (tab_str == NULL)
+		return (NULL);
+	while (*str != '\0')
 	{
-		i = 0;
-		while (s[len] == c)
-			len++;
-		while (s[len] && s[len] != c)
+		if (*str == c)
+			car = 0;
+		else if (car == 0)
 		{
-			i++;
-			len++;
+			tab_str[j] = ft_strdupcar(str, c);
+			j++;
+			car = 1;
 		}
-		if (i != 0 && !(tab[j] = ft_strsub(s, len - i, i)))
-			return (NULL);
-		j++;
+		str++;
 	}
-	return (tab);
+	tab_str[j] = 0;
+	return (tab_str);
 }
