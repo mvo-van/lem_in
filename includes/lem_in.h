@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 12:13:50 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/01/17 14:19:02 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/20 12:53:44 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # define DEF_SALLE		4
 # define DEF_TUN		8
 # define FLAG_ERREUR	16
+
+int fd;
 
 typedef struct	s_point
 {
@@ -69,7 +71,7 @@ void		bfs_conditions(t_graph *graph, int *i_link, int *tmp, int i[2]);
 void		bfs(t_graph *graph);
 
 
-int			set_matrix(t_graph *graph,  t_node **salle);
+int			set_matrix(t_graph *graph);
 
 
 void		block_links(t_graph *graph);
@@ -85,7 +87,7 @@ void		ft_distrib_f(t_graph *graph, int count);
 
 
 int			ft_hashtag(char *line);
-t_node		*ft_creat_salle(t_node *salle,char *name,int flag, t_point coor);
+t_node		*ft_creat_salle(t_node *salle, char *name, int flag, t_point coor);
 int			ft_pars_salle(char *line, t_node **salle, int flag, int ***tab);
 t_point 	ft_pars_coord(int j, char *line);
 int			ft_salle_existe(t_node *salle, char *line, int i, t_point coord);

@@ -6,19 +6,16 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 20:24:35 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/01/17 14:27:18 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/20 13:28:12 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int			set_matrix(t_graph *graph, t_node **salle)
+int			set_matrix(t_graph *graph)
 {
 	int		i;
 
-	if (ft_parsing(salle, &((*graph).links), &((*graph).nbr_f)))
-		return (0);
-	graph->nbr_n = (*salle)->n_node + 1;
 	if (!(graph->tmp_path = malloc(sizeof(int*) * graph->nbr_n)))
 		return (0);
 	if (!(graph->stack_path = malloc(sizeof(int) * graph->nbr_n)))
@@ -32,20 +29,52 @@ int			set_matrix(t_graph *graph, t_node **salle)
 		graph->tmp_path[i][1] = -1;
 		graph->tmp_path[i][2] = 0;
 	}
-	
+	return (1);
+}
+
+int		ft_tab_salle(t_node *salle, t_graph *graph)
+{
+	int		i;
+
+	i = 0;
+	if (salle)
+		graph->nbr_n = salle->n_node + 1;
+	else
+		graph->nbr_n = 0;
+	salle = ft_prev_salle(salle);
+	if (!(graph->tab_nodes =
+		(t_node *)malloc(sizeof(t_node) * (graph->nbr_n))))
+		return (0);
+	while (salle && i < graph->nbr_n)
+	{
+		graph->tab_nodes[i] = *salle;
+		i++;
+		salle = salle->next;
+	}
 	return (1);
 }
 
 int 	main()
 {
 	t_graph		graph;
-	t_node    	*salle;
-
+	t_node		*salle;
 
 	salle = NULL;
-	if (!set_matrix(&graph, &salle))
+	if (ft_parsing(&salle, &((graph).links), &((graph).nbr_f)))
+		return (0);
+	ft_tab_salle(salle, &graph);
+	if (!set_matrix(&graph))
 		return (free_graph(&graph));
-	for (int i=0; i < graph.nbr_n ; i++)
+	
+	int i = 0;
+	while(i < graph.nbr_n)
+	{
+		ft_putchar('\t');
+		ft_putstr(graph.tab_nodes[i].name);
+		ft_putchar('\n');
+		i++;
+	}
+	/*for (int i=0; i < graph.nbr_n ; i++)
 	{
 			for (int j=0;j<graph.nbr_n ; j++)
 			{
@@ -53,7 +82,7 @@ int 	main()
 				ft_putchar('\t');
 			}
 			ft_putchar('\n');
-	}/*
+	}*//*
 	graph.links[0][2] = 1;
 	graph.links[0][6] = 1;
 	graph.links[0][10] = 1;
@@ -93,14 +122,14 @@ int 	main()
 	bfs(&graph);
 	block_links(&graph);
 	
-	bfs(&graph);
+	/*bfs(&graph);
 	block_links(&graph);
 	
 	bfs(&graph);
 	block_links(&graph);
 
 	bfs(&graph);
-	block_links(&graph);
+	block_links(&graph);*/
 	// bfs(&graph);
 	// block_links(&graph);
 	//bfs(&graph);
@@ -135,6 +164,8 @@ int 	main()
 
 	// }
 	
+
+
 	int count = ft_count(graph);
 	ft_distrib_f(&graph, count);
 	ft_putnbr(count);
@@ -150,6 +181,8 @@ int 	main()
 		ft_putnbr(graph.next_paths[i].f);
 		ft_putchar('\n');
 	}
+	
 	free_graph(&graph);
+	//while (1)
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/17 12:34:08 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/20 13:32:14 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int			ft_has_salle(char *line, t_node **salle, int flag, int ***tab)
 	int			i;
 	int			j;
 
+	if (!(*line))
+		return (FLAG_ERREUR);
 	i = ft_hashtag(line);
 	if (i & FLAG_START || i & FLAG_END)
 	{
@@ -94,7 +96,7 @@ int			ft_pars_salle(char *line, t_node **salle, int flag, int ***tab)
 	t_point		coord;
 	char		*name;
 
-	if (line[0] == '#')
+	if (line[0] == '#' || !(*line))
 		return (ft_has_salle(line, salle, flag, tab));
 	else
 	{

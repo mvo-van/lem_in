@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/17 13:59:11 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/20 13:20:20 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		ft_pars_four(char *line, int *nb_four)
 			return (FLAG_ERREUR);
 		return (0);
 	}
-	else if (!line)
+	else if (!(*line))
 		return (FLAG_ERREUR);
 	else
 	{
@@ -84,7 +84,8 @@ int		ft_parsing(t_node **salle, int ***tab, int *nb_four)
 	*salle = NULL;
 	*tab = NULL;
 	flag = 0;
-	while (get_next_line(0, &line) && !(flag & FLAG_ERREUR))
+	//fd = open("test", O_RDONLY);
+	while (!(flag & FLAG_ERREUR) && get_next_line(0, &line))
 	{
 		ft_putstr(line);
 		ft_putchar('\n');
