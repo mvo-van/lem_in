@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/20 13:20:20 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:19:23 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,33 +49,37 @@ int		ft_pars_four(char *line, int *nb_four)
 	}
 }
 
-int		ft_free(int ***tab, t_node **salle)
+int		ft_free(int **tab, t_node **salle, int flag)
 {
 	int i;
+	t_node *save;
 
 	*salle = ft_next_salle(*salle);
 	i = ((*salle) ? ((*salle)->n_node) : -1);
-	if (*tab)
+	//int j = 0;
+	if (tab)
 	{
 		while (i >= 0)
 		{
-			free((*tab)[i]);
+			free(tab[i]);
 			i--;
 		}
-		free(*tab);
+		free(tab);
 	}
-	*tab = NULL;
 	while (*salle)
 	{
+		save = (*salle)->prev;
 		if ((*salle)->name)
 			free((*salle)->name);
 		free(*salle);
-		*salle = (*salle)->prev;
+		*salle = save;
 	}
 	*salle = NULL;
+	if (flag)
+		write(1, "ERREUR\n", 7);
 	return (1);
 }
-
+#include <stdio.h>
 int		ft_parsing(t_node **salle, int ***tab, int *nb_four)
 {
 	char	*line;
@@ -91,8 +95,9 @@ int		ft_parsing(t_node **salle, int ***tab, int *nb_four)
 		ft_putchar('\n');
 		if (flag == 0)
 			flag |= ft_pars_four(line, nb_four);
-		else if (flag & DEF_SALLE && !(flag & DEF_TUN))
+		else if (flag & DEF_SALLE && !(flag & DEF_TUN)){
 			flag |= ft_pars_salle(line, salle, 0, tab);
+		}
 		if (flag & DEF_SALLE && flag & DEF_TUN)
 		{
 			flag |= ft_pars_tun(line, salle, tab);
@@ -102,6 +107,6 @@ int		ft_parsing(t_node **salle, int ***tab, int *nb_four)
 		free(line);
 	}
 	if (flag & FLAG_ERREUR)
-		return (ft_free(tab, salle));
+		return (ft_free(*tab, salle, 1));
 	return (0);
 }

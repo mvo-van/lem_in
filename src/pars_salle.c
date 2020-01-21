@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/20 13:45:30 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:18:19 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_point		ft_pars_coord(int j, char *line)
 	coord.y = ft_atoi(line + j);
 	return (coord);
 }
-
+#include <stdio.h>
 int			ft_pars_salle(char *line, t_node **salle, int flag, int ***tab)
 {
 	int			j;
@@ -111,8 +111,11 @@ int			ft_pars_salle(char *line, t_node **salle, int flag, int ***tab)
 		if (coord.x == -1 || coord.y == -1 ||
 			ft_salle_existe(*salle, line, j, coord))
 			return (FLAG_ERREUR);
-		name = ft_memcpy(ft_memalloc(j + 1), line, j);
+		name = ft_strnew(j + 1);
+		//name = ft_memcpy(ft_memalloc(j + 1), line, j);
+		name = ft_strncpy(name, line , j);
 		*(salle) = ft_creat_salle(*salle, name, flag, coord);
+		free(name);
 		return (DEF_SALLE);
 	}
 }

@@ -1,4 +1,4 @@
-NAME = lem_in
+NAME = lem-in
 
 SRC =	lem_in.c \
 		get_path.c \
@@ -8,7 +8,9 @@ SRC =	lem_in.c \
 		list.c \
 		pars_salle.c \
 		pars_tubes.c \
-		parsing.c
+		parsing.c \
+		output.c \
+		paths_selection.c
 
 OBJ = $(patsubst %.c, obj/%.o, $(SRC))
 

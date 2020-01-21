@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/20 11:46:13 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:14:30 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int			ft_has_tun(char *line)
 		return (FLAG_ERREUR);
 	return (0);
 }
-
+#include <stdio.h>
 t_point		ft_salle_existe_tun(t_node *salle, char *line, int i)
 {
 	t_point		coord;

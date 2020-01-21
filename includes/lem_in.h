@@ -6,21 +6,21 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 12:13:50 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/01/20 12:53:44 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:15:56 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
-# include "libft.h"
-
+//#include "ft_printf.h"
+#include "libft.h"
 # define FLAG_START 	1
 # define FLAG_END		2
 # define DEF_SALLE		4
 # define DEF_TUN		8
 # define FLAG_ERREUR	16
 
-int fd;
+int fd;////////////////////////////
 
 typedef struct	s_point
 {
@@ -42,7 +42,7 @@ typedef struct	s_node
 typedef struct s_all_paths	t_all_paths;
 struct	s_all_paths	//list of all paths
 {
-	int				*path;
+	int				**path;
 	int				size;
 	int				f;
 };
@@ -58,7 +58,10 @@ struct	s_graph
 	int				*stack_path;//stack for bfs
 
 	int				nbr_curr_paths;
+	int				count_curr_paths;
 	t_all_paths		*curr_paths;
+
+	int				count_next_paths;
 	int				nbr_next_paths;
 	t_all_paths		*next_paths;
 
@@ -74,16 +77,24 @@ void		bfs(t_graph *graph);
 int			set_matrix(t_graph *graph);
 
 
-void		block_links(t_graph *graph);
+int			block_links(t_graph *graph);
 void		fill_paths(t_graph *graph, int i[3], int *n);
 int			nbr_paths(t_graph *graph);
 int			get_paths(t_graph *graph);
 
-void		free_paths(t_graph *paths, int flag);
+void		free_paths(t_graph *graph, int flag);
 int			free_graph(t_graph *graph);
 
-int			ft_count(t_graph graph);
-void		ft_distrib_f(t_graph *graph, int count);
+
+void		ft_count(t_graph *graph);
+void		ft_distrib_f(t_graph *graph);
+
+void		output_str(t_graph graph,int i, int j);
+void		output_algo(t_graph graph);
+
+int			cp_paths(t_graph *graph);
+int			cmp_paths(t_graph *graph);
+int			optimal_paths(t_graph *graph);
 
 
 int			ft_hashtag(char *line);
@@ -100,7 +111,7 @@ t_node		*ft_next_salle(t_node *salle);
 int         ft_pars_tun(char *line, t_node **salle, int ***tab);
 int			**ft_make_doubtab(t_node *salle);
 int			**ft_tab_zero(int	**tab, int size, int n_node);
-int			ft_free(int ***tab, t_node **salle);
+int			ft_free(int **tab, t_node **salle, int flag);
 
 
 #endif

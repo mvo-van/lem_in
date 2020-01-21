@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/20 11:46:12 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/21 16:14:42 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_node	*ft_creat_salle(t_node *salle, char *name, int flag, t_point coor)
 
 	if (!(new = (t_node*)malloc(sizeof(t_node) * 1)))
 		return (NULL);
-	new->name = name;
+	new->name = ft_strdup(name);
 	new->start = 0;
 	new->end = 0;
 	new->coor.x = coor.x;
