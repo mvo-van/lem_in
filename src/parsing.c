@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/21 17:19:23 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/01/30 16:17:04 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,27 @@ int		ft_hashtag(char *line)
 	else if (!(ft_strcmp(line, "##end")))
 		return (FLAG_END);
 	return (0);
+}
+
+int		ft_atoi_positif(const char *str)
+{
+	int		i;
+	int		result;
+	long	number;
+
+	number = 0;
+	result = -1;
+	i = 0;
+	while (*(str + i) >= '0' && *(str + i) <= '9')
+	{
+		number = number * 10 + *(str + i) - '0';
+		i++;
+	}
+	if(number > 2147483647)
+		return (-1);
+	else
+		result = (int)number;
+	return (result);
 }
 
 int		ft_pars_four(char *line, int *nb_four)
@@ -37,14 +58,13 @@ int		ft_pars_four(char *line, int *nb_four)
 		return (FLAG_ERREUR);
 	else
 	{
-		j = 0;
-		while (line[j])
-		{
+		j = -1;
+		while (line[++j])
 			if (!ft_isdigit(line[j]))
 				return (FLAG_ERREUR);
-			j++;
-		}
 		*nb_four = ft_atoi(line);
+		if (*nb_four <= 0)
+			return (FLAG_ERREUR);
 		return (DEF_SALLE);
 	}
 }
@@ -106,7 +126,7 @@ int		ft_parsing(t_node **salle, int ***tab, int *nb_four)
 		}
 		free(line);
 	}
-	if (flag & FLAG_ERREUR)
+	if ((flag & FLAG_ERREUR) || !(*salle) || !(*tab))
 		return (ft_free(*tab, salle, 1));
 	return (0);
 }
