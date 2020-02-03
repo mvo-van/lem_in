@@ -6,7 +6,7 @@
 /*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 03:56:09 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/01/21 06:03:17 by hmidoun          ###   ########.fr       */
+/*   Updated: 2020/02/02 19:23:52 by hmidoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ int			free_graph(t_graph *graph)
 	}
 	if (graph->stack_path)
 		free(graph->stack_path);
+	// if (graph->paths_order)
+	// 	free(graph->paths_order);
 	i = -1;
 	if (graph->tmp_path)
 	{

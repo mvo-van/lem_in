@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 12:13:50 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/01/21 17:15:56 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/03 14:43:40 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ struct	s_graph
 	int				count_curr_paths;
 	t_all_paths		*curr_paths;
 
-	int				count_next_paths;
+	long			count_next_paths;
 	int				nbr_next_paths;
 	t_all_paths		*next_paths;
 

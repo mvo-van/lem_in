@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/30 16:17:04 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/03 14:06:40 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ int		ft_atoi_positif(const char *str)
 	while (*(str + i) >= '0' && *(str + i) <= '9')
 	{
 		number = number * 10 + *(str + i) - '0';
+		if (number > 2147483647)
+			return (-1);
 		i++;
 	}
-	if(number > 2147483647)
-		return (-1);
-	else
-		result = (int)number;
+	result = (int)number;
 	return (result);
 }
 
