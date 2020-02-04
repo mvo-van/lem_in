@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/30 16:17:01 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 19:55:17 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			ft_has_salle(char *line, t_node **salle, int flag, int ***tab)
 		if (start & i || flag)
 			return (FLAG_ERREUR);
 		start |= (i & FLAG_START ? FLAG_START : FLAG_END);
-		if (get_next_line(0, &line))
+		if (get_next_line(fd, &line))
 		{
 			ft_putstr(line);
 			ft_putchar('\n');
@@ -99,9 +99,9 @@ int			ft_pars_salle(char *line, t_node **salle, int flag, int ***tab)
 	else
 	{
 		j = 0;
-		while (line[j] && line[j] != ' ')
+		while (line[j] && line[j] != ' ' && line[j] != '\t')
 			j++;
-		if (line[j] != ' ')
+		if (line[j] != ' ' && line[j] != '\t')
 		{
 			if (!(*tab = ft_make_doubtab(*salle)))
 				return (FLAG_ERREUR);
@@ -114,7 +114,7 @@ int			ft_pars_salle(char *line, t_node **salle, int flag, int ***tab)
 		name = ft_strnew(j + 1);
 		//name = ft_memcpy(ft_memalloc(j + 1), line, j);
 		name = ft_strncpy(name, line , j);
-		*(salle) = ft_creat_salle(*salle, name, flag, coord);
+		*(salle) = ft_creat_salle(*salle, flag);
 		free(name);
 		return (DEF_SALLE);
 	}

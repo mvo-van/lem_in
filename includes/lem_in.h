@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 12:13:50 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/03 14:43:40 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 19:52:04 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include "libft.h"
 # define FLAG_START 	1
 # define FLAG_END		2
+# define FLAG_CMT		32
 # define DEF_SALLE		4
 # define DEF_TUN		8
 # define FLAG_ERREUR	16
@@ -24,8 +25,8 @@ int fd;////////////////////////////
 
 typedef struct	s_point
 {
-	int	x;
-	int y;
+	int		x;
+	int		y;
 }				t_point;
 
 typedef struct	s_node
@@ -96,15 +97,16 @@ int			cp_paths(t_graph *graph);
 int			cmp_paths(t_graph *graph);
 int			optimal_paths(t_graph *graph);
 
-
+int			ft_verif_salle_coor(int x, int y, t_node *salle);
+int			ft_verif_salle_name(char *str, t_node *salle);
 int			ft_hashtag(char *line);
-t_node		*ft_creat_salle(t_node *salle, char *name, int flag, t_point coor);
+t_node		*ft_creat_salle(t_node *salle, int flag);
 int			ft_pars_salle(char *line, t_node **salle, int flag, int ***tab);
 t_point 	ft_pars_coord(int j, char *line);
 int			ft_salle_existe(t_node *salle, char *line, int i, t_point coord);
 int			ft_has_salle(char *line, t_node **salle, int flag, int ***tab);
-int			ft_parsing(t_node **salle, int ***tab, int *nb_four);
-int			ft_pars_four(char *line, int *nb_four);
+int			ft_parsing(t_node **salle, int ***tab, t_graph *graph);
+int			ft_pars_four(t_graph *graph);
 int			ft_hashtag(char *line);
 t_node		*ft_prev_salle(t_node *salle);
 t_node		*ft_next_salle(t_node *salle);

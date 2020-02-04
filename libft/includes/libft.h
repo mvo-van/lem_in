@@ -6,13 +6,13 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/13 12:32:34 by midounhoc         #+#    #+#             */
-/*   Updated: 2020/02/04 11:13:41 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 14:39:25 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
-# define BUFF_SIZE 4096
+# define BUFF_SIZE 32
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>

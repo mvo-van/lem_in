@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 20:24:35 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/04 10:12:01 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 19:30:49 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ int		ft_tab_salle(t_node *salle, t_graph *graph)
 	int		i;
 
 	i = 0;
+	salle = ft_next_salle(salle);
 	if (salle)
 		graph->nbr_n = salle->n_node + 1;
 	else
@@ -64,9 +65,9 @@ int 	main()
 	t_graph		graph;
 	t_node		*salle;
 
-	fd = open("tt",O_RDONLY);
+	fd = open("tst",O_RDONLY);
 	salle = NULL;
-	if (ft_parsing(&salle, &((graph).links), &((graph).nbr_f))){while(1);
+	if (ft_parsing(&salle, &((graph).links), &graph)){/*while(1);*/
 		return (0);}
 	
 	ft_tab_salle(salle, &graph);
@@ -75,9 +76,27 @@ int 	main()
 	if (!set_matrix(&graph))
 		return (free_graph(&graph));
 
+// for(int i = 0; i < graph.nbr_n; i++)
+// 	{
+// 		for (int j = 0; j < graph.nbr_n; j++)
+// 		{
+// 			ft_putnbr(graph.links[i][j]);
+// 			ft_putchar('\t');
+// 		}
+// 		ft_putchar('\n');
+// }
+
+
+
+
 	if(!optimal_paths(&graph))
 		return (free_graph(&graph));
-	 output_algo(graph);
+
+
+
+
+
+	output_algo(graph);
 	free_graph(&graph);
 	ft_free(NULL, &salle, 0);
 	free(graph.tab_nodes);
@@ -281,6 +300,6 @@ int 	main()
 	// }
 
 
-	while (1);
+//	while (1);
 	return (0);
 }

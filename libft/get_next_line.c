@@ -6,95 +6,70 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/15 13:26:15 by midounhoc         #+#    #+#             */
-/*   Updated: 2020/02/04 11:13:19 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 13:56:35 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int			ft_count_id(char *str, char c)
+int		search_end(char *str)
 {
-	int		id;
+	int i;
 
-	id = 0;
-	if (!str)
-		return (0);
-	while (str[id] && str[id] != c)
-		id++;
-	return (id);
-}
-
-static int			ft_linecpy(char **line, char **temp_buff, int index)
-{
-	char	*sav;
-
-	if (!(*line = ft_strsub(*temp_buff, 0, index)))
-		return (-1);
-	if ((*temp_buff)[index] == '\n')
-		index++;
-	sav = NULL;
-	if ((*temp_buff)[index] && !(sav = ft_strdup(&(*temp_buff)[index])))
+	i = 0;
+	while (str && str[i])
 	{
-		free(*line);
-		return (-1);
+		if (str[i] == '\n')
+			return (i);
+		i++;
 	}
-	free(*temp_buff);
-	*temp_buff = sav;
-	return (1);
+	return (-1);
 }
 
-static t_lst_fd		*ft_new_ptr_lst(int fd)
+char	*read_file(char *str, int fd)
 {
-	t_lst_fd	*i;
+	int		ret;
+	char	buffer[BUFF_SIZE + 1];
+	char	*free_it;
 
-	if (!(i = (t_lst_fd*)malloc(sizeof(*i))))
-		return (NULL);
-	i->fd = fd;
-	i->buff = NULL;
-	i->next = NULL;
-	return (i);
-}
-
-static int			ft_gnl(t_lst_fd *temp, char **line)
-{
-	int				index;
-	int				size;
-	char			buff[BUFF_SIZE + 1];
-	char			*sav;
-
-	while ((index = ft_count_id(temp->buff, '\n')) ==
-			ft_count_id(temp->buff, '\0'))
+	while ((ret = read(fd, buffer, BUFF_SIZE)) > 0)
 	{
-		if (BUFF_SIZE <= 0 || (size = read(temp->fd, buff, BUFF_SIZE)) < 0)
-			return (-1);
-		buff[size] = '\0';
-		if (size == 0)
+		buffer[ret] = '\0';
+		free_it = str;
+		if (!(str = ft_strjoin(str, buffer)))
+			return (NULL);
+		free(free_it);
+		if (search_end(buffer) >= 0)
 			break ;
-		sav = temp->buff;
-		temp->buff = ft_strjoin(sav == NULL ? "" : sav, buff);
-		free(sav);
 	}
-	if (!temp->buff && !size)
-		return (0);
-	return (ft_linecpy(line, &temp->buff, index));
+	return (str);
 }
 
-int					get_next_line(const int fd, char **line)
+int		get_next_line(int const fd, char **line)
 {
-	static t_lst_fd		*ptr_lst = NULL;
-	t_lst_fd			*temp;
-	int					ret;
+	static char	tmp[OPEN_MAX][BUFF_SIZE + 1];
+	int			end;
 
-	if (ptr_lst == NULL)
-		ptr_lst = ft_new_ptr_lst(fd);
-	temp = ptr_lst;
-	while (temp->fd != fd && temp->next)
-		temp = temp->next;
-	if (temp->fd != fd)
+	if (fd < 0 || !line || read(fd, tmp, 0) < 0 || fd > OPEN_MAX ||
+		!(*line = ft_strdup(tmp[fd])))
+		return (-1);
+	end = search_end(*line);
+	if (end < 0)
 	{
-		temp->next = ft_new_ptr_lst(fd);
-		temp = temp->next;
+		if (!(*line = read_file(*line, fd)))
+			return (-1);
+		if (!**line)
+		{
+			free(*line);
+			return (0);
+		}
+		end = search_end(*line);
 	}
-	ret = ft_gnl(temp, line);
-	return (ret);
+	tmp[fd][0] = '\0';
+	if (end >= 0)
+	{
+		ft_strcpy(tmp[fd], *line + end + 1);
+		(*line)[end] = '\0';
+	}
+	return (1);
 }

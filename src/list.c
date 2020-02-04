@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/04 09:59:18 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 19:54:27 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,21 @@ t_node	*ft_creat_end_start(t_node *salle, t_node *new, int flag)
 	if (salle)
 		salle->prev = new;
 	new->next = salle;
-	return (ft_next_salle(new));
+	return (new);
 }
 
-t_node	*ft_creat_salle(t_node *salle, char *name, int flag, t_point coor)
+t_node	*ft_creat_salle(t_node *salle, int flag)
 {
 	t_node *new;
 
+	salle = ft_next_salle(salle);
 	if (!(new = (t_node*)malloc(sizeof(t_node) * 1)))
 		return (NULL);
-	new->name = ft_strdup(name);
+	new->name = NULL;
 	new->start = 0;
 	new->end = 0;
-	new->coor.x = coor.x;
-	new->coor.y = coor.y;
+	new->coor.x = -1;
+	new->coor.y = -1;
 	if (flag & FLAG_END || flag & FLAG_START)
 		return (ft_creat_end_start(salle, new, flag));
 	new->n_node = 2;
