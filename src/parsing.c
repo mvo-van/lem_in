@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/03 14:06:40 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 09:32:34 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,8 @@ int		ft_parsing(t_node **salle, int ***tab, int *nb_four)
 		ft_putchar('\n');
 		if (flag == 0)
 			flag |= ft_pars_four(line, nb_four);
-		else if (flag & DEF_SALLE && !(flag & DEF_TUN)){
+		else if (flag & DEF_SALLE && !(flag & DEF_TUN))
 			flag |= ft_pars_salle(line, salle, 0, tab);
-		}
 		if (flag & DEF_SALLE && flag & DEF_TUN)
 		{
 			flag |= ft_pars_tun(line, salle, tab);

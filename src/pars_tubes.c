@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/01/21 17:14:30 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 09:34:38 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int			ft_pars_tun(char *line, t_node **salle, int ***tab)
 	int			j;
 	t_point		coord;
 
-	if (line[0] == '#'){
-		return (ft_has_tun(line));}
+	if (line[0] == '#')
+		return (ft_has_tun(line));
 	else
 	{
 		j = 0;
@@ -114,6 +114,7 @@ int			ft_pars_tun(char *line, t_node **salle, int ***tab)
 			j++;
 		}
 		coord = ft_salle_existe_tun(*salle, line, j);
+		//printf("x %d y %d\n",coord.x,coord.y);
 		if (coord.x == -1 || coord.y == -1)
 			return (FLAG_ERREUR);
 		(*tab)[coord.x][coord.y] = 1;

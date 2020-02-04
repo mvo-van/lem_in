@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 20:24:35 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/03 14:31:13 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/04 10:12:01 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,11 @@ int 	main()
 
 	fd = open("tt",O_RDONLY);
 	salle = NULL;
-	if (ft_parsing(&salle, &((graph).links), &((graph).nbr_f)))
-		return (0);
+	if (ft_parsing(&salle, &((graph).links), &((graph).nbr_f))){while(1);
+		return (0);}
+	
 	ft_tab_salle(salle, &graph);
-ft_putnbr(graph.nbr_f);
-
-
+//ft_putnbr(graph.nbr_f);
 
 	if (!set_matrix(&graph))
 		return (free_graph(&graph));
@@ -282,6 +281,6 @@ ft_putnbr(graph.nbr_f);
 	// }
 
 
-	//while (1);
+	while (1);
 	return (0);
 }
