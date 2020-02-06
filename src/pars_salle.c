@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/04 19:55:17 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/06 11:53:44 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int			ft_has_salle(char *line, t_node **salle, int flag, int ***tab)
 		if (start & i || flag)
 			return (FLAG_ERREUR);
 		start |= (i & FLAG_START ? FLAG_START : FLAG_END);
-		if (get_next_line(fd, &line))
+		if (get_next_line(0, &line))
 		{
 			ft_putstr(line);
 			ft_putchar('\n');

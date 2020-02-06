@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 12:13:50 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/04 19:52:04 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/06 12:31:51 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_node		*ft_next_salle(t_node *salle);
 int         ft_pars_tun(char *line, t_node **salle, int ***tab);
 int			**ft_make_doubtab(t_node *salle);
 int			**ft_tab_zero(int	**tab, int size, int n_node);
-int			ft_free(int **tab, t_node **salle, int flag);
+int			ft_free(int **tab, t_node **salle, char *line, int flag);
 
 
 #endif
