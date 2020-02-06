@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/06 17:17:36 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/06 19:16:06 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int		ft_verif_salle_coor(int x, int y, t_node *salle)
 	while (salle)
 	{
 		if (salle->coor.x == x && salle->coor.y == y)
-				return (salle->n_node);
+			return (salle->n_node);
 		salle = salle->prev;
 	}
 	return (-1);
@@ -297,30 +297,52 @@ int		ft_creat_tab_link(t_graph *graph, t_node *salle)
 	return (i);
 }
 
+int		ft_sous_pars(t_typ *typ, char *line, t_node **salle, t_graph *graph)
+{
+	if (typ->ret == FLAG_START || typ->ret == FLAG_END)
+	{
+		if (typ->flag & typ->ret)
+			return (ft_free(graph->links, salle, line, 1));
+		free(line);
+		if (get_next_line(0, &line) > 0)
+		{
+			ft_putstr(line);
+			ft_putstr("\n");
+		}
+		else
+			return (ft_free(graph->links, salle, line, 1));
+		typ->flag |= typ->ret;
+	}
+	(*salle) = ft_creat_salle((*salle), typ->ret);
+	if (get_salle(line, (*salle)) == FLAG_ERREUR)
+		return (ft_free(graph->links, salle, line, 1));
+	return (0);
+}
+
 int		ft_pars_suite(t_graph *graph, t_node **salle)
 {
-	int		ret;
+	t_typ	typ;
 	char	*line;
-	int		res;
-	int		flag;
-	int		tun;
 
-	res = 0;
-	flag = 0;
-	tun = 0;
+	typ.res = 0;
+	typ.flag = 0;
+	typ.tun = 0;
 	while (get_next_line(0, &line) > 0)
-	{	
+	{
 		ft_putstr(line);
 		ft_putstr("\n");
-		ret = ft_hashtag(line);
-		res = ((res == 1) ? 1 : check_link(line));
-		if (ret != FLAG_CMT && !(res))
+		typ.ret = ft_hashtag(line);
+		typ.res = ((typ.res == 1) ? 1 : check_link(line));
+		// ft_putnbr(typ.ret);
+		// ft_putnbr(typ.res);
+		if (typ.ret != FLAG_CMT && !(typ.res))
 		{
-			if (ret == FLAG_START || ret == FLAG_END)
+			// if ((ft_sous_pars(&typ, line, salle, graph) == FLAG_ERREUR))
+			// 	return(FLAG_ERREUR);
+			if (typ.ret == FLAG_START || typ.ret == FLAG_END)
 			{
-				if (flag & ret){
-					return (ft_free(graph->links, salle, line, 1));}
-				flag |= ret;//ft_putnbr(flag);
+				if (typ.flag & typ.ret)
+					return (ft_free(graph->links, salle, line, 1));
 				free(line);
 				if (get_next_line(0, &line) > 0)
 				{
@@ -328,26 +350,26 @@ int		ft_pars_suite(t_graph *graph, t_node **salle)
 					ft_putstr("\n");
 				}
 				else
-				{
 					return (ft_free(graph->links, salle, line, 1));
-				}
+				typ.flag |= typ.ret;
 			}
-			(*salle) = ft_creat_salle((*salle), ret);
+			(*salle) = ft_creat_salle((*salle), typ.ret);
 			if (get_salle(line, (*salle)) == FLAG_ERREUR)
 				return (ft_free(graph->links, salle, line, 1));
 		}
-		else if (ret != FLAG_CMT && res)
+		else if (typ.ret != FLAG_CMT && typ.res)
 		{
-			if (!((flag & FLAG_START) && (flag & FLAG_END)) || !(check_link(line)))
+			if (!((typ.flag & FLAG_START) && (typ.flag & FLAG_END)) || !(check_link(line)))
 				return (ft_free(graph->links, salle, line, 1));
-			else if (tun == 0)
+			else if (typ.tun == 0)
 				ft_creat_tab_link(graph, (*salle));
-			tun = 1;
-			if (ret == 0 && (get_link(line, (*salle), graph) == FLAG_ERREUR))
+			typ.tun = 1;
+			if (typ.ret == 0 && (get_link(line, (*salle), graph) == FLAG_ERREUR))
 				return (ft_free(graph->links, salle, line, 1));
 		}
 		free(line);
 	}
+	
 	if (!(graph->links))
 		return (ft_free(NULL, salle, NULL, 1));
 	return (1);

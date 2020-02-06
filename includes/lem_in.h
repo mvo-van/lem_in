@@ -6,22 +6,30 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 12:13:50 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/06 12:31:51 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/06 18:12:00 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEM_IN_H
 # define LEM_IN_H
-//#include "ft_printf.h"
+
 #include "libft.h"
 # define FLAG_START 	1
 # define FLAG_END		2
-# define FLAG_CMT		32
 # define DEF_SALLE		4
 # define DEF_TUN		8
 # define FLAG_ERREUR	16
+# define FLAG_CMT		32
 
 int fd;////////////////////////////
+
+typedef struct	s_typ
+{
+	int		ret;
+	int		res;
+	int		flag;
+	int		tun;
+}				t_typ;
 
 typedef struct	s_point
 {

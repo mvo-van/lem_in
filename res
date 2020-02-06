@@ -1,7 +1,7 @@
 100
 ##start
-start 1 3
-room1  5 6
+start 1 3   
+room1 5 6
 room2 8 9
 room3 7 8
 room4 7 6
