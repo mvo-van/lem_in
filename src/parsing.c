@@ -6,20 +6,11 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/06 16:16:22 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/06 17:17:36 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
-
-// int		ft_hashtag(char *line)
-// {
-// 	if (!(ft_strcmp(line, "##start")))
-// 		return (FLAG_START);
-// 	else if (!(ft_strcmp(line, "##end")))
-// 		return (FLAG_END);
-// 	return (0);
-// }
 
 int		ft_atoi_positif(const char *str)
 {
@@ -43,37 +34,8 @@ int		ft_atoi_positif(const char *str)
 	return (result);
 }
 
-// int		ft_pars_four(char *line, int *nb_four)
-// {
-// 	int		i;
-// 	int		j;
-
-// 	if (line[0] == '#')
-// 	{
-// 		i = ft_hashtag(line);
-// 		if (i & FLAG_START || i & FLAG_END)
-// 			return (FLAG_ERREUR);
-// 		return (0);
-// 	}
-// 	else if (!(*line))
-// 		return (FLAG_ERREUR);
-// 	else
-// 	{
-// 		j = -1;
-// 		while (line[++j])
-// 			if (!ft_isdigit(line[j]))
-// 				return (FLAG_ERREUR);
-// 		*nb_four = ft_atoi(line);
-// 		if (*nb_four <= 0)
-// 			return (FLAG_ERREUR);
-// 		return (DEF_SALLE);
-// 	}
-// }
-
 int		ft_hashtag(char *line)
 {
-	// if (line[0] == '\0')
-	// 	return (FLAG_ERREUR);
 	if (line[0] == '#')
 	{
 		if (!ft_strcmp(line, "##start"))
@@ -81,14 +43,19 @@ int		ft_hashtag(char *line)
 		if (!ft_strcmp(line, "##end"))
 			return (FLAG_END);
 		else
-			return(FLAG_CMT);
+			return (FLAG_CMT);
 	}
 	return (0);
 }
 
+int		ft_free_line(char *line)
+{
+	if (line)
+		free(line);
+	return (FLAG_ERREUR);
+}
 
-
-int			ft_pars_four(t_graph *graph)
+int		ft_pars_four(t_graph *graph)
 {
 	char	*line;
 	int		ret;
@@ -99,17 +66,11 @@ int			ft_pars_four(t_graph *graph)
 		ft_putstr("\n");
 		ret = ft_hashtag(line);
 		if (ret == FLAG_START || ret == FLAG_END)
-		{
-			free(line);
-			return (FLAG_ERREUR);
-		}
+			return (ft_free_line(line));
 		if (ret != FLAG_CMT)
 		{
 			if ((graph->nbr_f = ft_atoi_positif(line)) <= 0)
-			{
-				free(line);
-				return (FLAG_ERREUR);
-			}
+				return (ft_free_line(line));
 			free(line);
 			return (1);
 		}
@@ -170,13 +131,29 @@ void	ft_free_tab(char **tab)
 	}
 }
 
+t_point	ft_coor(t_point coor, int i, char **tab)
+{
+	if (i == 1)
+	{
+		coor.x = ft_atoi(tab[i]);
+		if (!ft_isalldigit(tab[i]))
+			coor.x = -1;
+	}
+	else if (i == 2)
+	{
+		coor.y = ft_atoi(tab[2]);
+		if (!ft_isalldigit(tab[2]))
+			coor.y = -1;
+	}
+	return (coor);
+}
+
 int		get_salle(char *line, t_node *salle)
 {
 	char	**tab;
 	int		i;
-	int		x;
-	int		y;
-	
+	t_point	coor;
+
 	i = -1;
 	if (line[0] == ' ')
 		return (FLAG_ERREUR);
@@ -185,30 +162,19 @@ int		get_salle(char *line, t_node *salle)
 	{
 		if (i == 0)
 		{
-			if(ft_verif_salle_name(tab[0],salle) == -1)
+			if (ft_verif_salle_name(tab[0], salle) == -1)
 				salle->name = ft_strdup(tab[0]);
 			else
-				break;
-		}
-		else if (i == 1)
-		{
-			x = ft_atoi(tab[1]);
-			if (!ft_isalldigit(tab[1]))
 				break ;
 		}
-		else if (i == 2)
-		{
-			y = ft_atoi(tab[2]);
-			if (!ft_isalldigit(tab[2]))
-				break ;
-		}
+		else if (i == 1 || i == 2)
+			coor = ft_coor(coor, i, tab);
 	}
 	ft_free_tab(tab);
 	if (i == 3)
-		if(ft_verif_salle_coor(x, y, salle) == -1)
+		if (ft_verif_salle_coor(coor.x, coor.y, salle) == -1)
 		{
-			salle->coor.x = x;
-			salle->coor.y = y;
+			salle->coor = coor;
 			return (1);
 		}
 	return (FLAG_ERREUR);
@@ -297,9 +263,7 @@ int		ft_free(int **tab, t_node **salle, char *line, int flag)
 	if (line)
 		free(line);
 	if (flag)
-	{
 		write(1, "ERREUR\n", 7);
-	}
 	return (FLAG_ERREUR);
 }
 
@@ -329,10 +293,10 @@ int		ft_creat_tab_link(t_graph *graph, t_node *salle)
 		}
 		j++;
 	}
-	//graph->links[j] = NULL;
 	ft_tab_zero(graph->links, i + 1, salle->n_node + 1);
 	return (i);
 }
+
 int		ft_pars_suite(t_graph *graph, t_node **salle)
 {
 	int		ret;

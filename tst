@@ -1,4 +1,5 @@
-100
+#;kdjhfkjdh
+10
 ##start
 start 1 3
 room1 5 6
@@ -12,13 +13,5 @@ room8 4 3
 ##end
 end 3 5
 room9 8 2
-start-room1
-room1-room2
-room2-room3
-room3-room4
-room5-room6
-room6-room7
-room7-room8
-room8-room9
+start-end
 room9-end
-
