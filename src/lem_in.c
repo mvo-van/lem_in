@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 20:24:35 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/06 15:28:47 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/08 14:01:28 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,12 @@ int			set_matrix(t_graph *graph)
 		return (0);
 	if (!(graph->stack_path = malloc(sizeof(int) * graph->nbr_n)))
 		return (0);
-	// if (!(graph->paths_order = malloc(sizeof(int) * graph->nbr_n)))
-	// 	return (0);
 	i = -1;
 	while (++i < graph->nbr_n)
 	{
-		if(!(graph->tmp_path[i] = malloc(sizeof(int) * 4)))
+		if (!(graph->tmp_path[i] = malloc(sizeof(int) * 4)))
 			return (0);
 		graph->tmp_path[i][3] = -1;
-		// graph->tmp_path[i][1] = -1;
-		// graph->tmp_path[i][2] = 0;
 	}
 	return (1);
 }
@@ -57,20 +53,17 @@ int		ft_tab_salle(t_node *salle, t_graph *graph)
 	return (1);
 }
 
-
-
-
 int 	main()
 {
 	t_graph		graph;
 	t_node		*salle;
 
-	fd = open("tst",O_RDONLY);
+	//fd = open("tst",O_RDONLY);
 	salle = NULL;
 	if (ft_parsing(&salle, &((graph).links), &graph) == FLAG_ERREUR)
 	{
-		
-		//while(1);
+
+	//	while(1);
 		return (0);
 	}
 	
@@ -79,7 +72,11 @@ int 	main()
 
 	if (!set_matrix(&graph))
 	{
-		return (free_graph(&graph));
+		ft_free(NULL, &salle, NULL, 0);
+		free(graph.tab_nodes);
+		free_graph(&graph);
+		//while(1);
+		return (0);
 	}
 	// for(int i = 0; i < graph.nbr_n; i++)
 	// {
@@ -93,16 +90,23 @@ int 	main()
 
 
 
-
+	//ft_putnbr(graph.count_curr_paths);
 	if(!optimal_paths(&graph))
-		return (free_graph(&graph));
+	{
+		ft_putstr("ERROR\n");
+		ft_free(NULL, &salle, NULL, 0);
+		free(graph.tab_nodes);
+		free_graph(&graph);
+		//while(1);
+		return (0);
+	}
 
 	output_algo(graph);
 	free_graph(&graph);
 	ft_free(NULL, &salle, NULL, 0);
 	free(graph.tab_nodes);
 
-
+	//while (1);
 
 // 	bfs(&graph);
 // 	block_links(&graph);
@@ -301,6 +305,6 @@ int 	main()
 	// }
 
 
-	while (1);
+	//while (1);
 	return (0);
 }

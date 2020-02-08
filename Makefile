@@ -10,7 +10,9 @@ SRC =	lem_in.c \
 		pars_tubes.c \
 		parsing.c \
 		output.c \
-		paths_selection.c
+		paths_selection.c \
+		free_pars.c \
+		verif.c
 
 OBJ = $(patsubst %.c, obj/%.o, $(SRC))
 

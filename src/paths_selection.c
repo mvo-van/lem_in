@@ -6,14 +6,14 @@
 /*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 07:28:44 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/01/28 09:06:36 by hmidoun          ###   ########.fr       */
+/*   Updated: 2020/02/07 00:56:36 by hmidoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
 int		cp_paths(t_graph *graph)
- {
+{
 	int	i;
 	int	j;
 
@@ -27,9 +27,9 @@ int		cp_paths(t_graph *graph)
 	{
 		if (!(graph->curr_paths[i].path = malloc(sizeof(int *) * 2)))
 			return (0);
-		if (!(graph->curr_paths[i].path[0]= malloc(sizeof(int) * graph->next_paths[i].size)))
+		if (!(graph->curr_paths[i].path[0] = malloc(sizeof(int) * graph->next_paths[i].size)))
 			return (0);
-		if (!(graph->curr_paths[i].path[1]= malloc(sizeof(int) * graph->next_paths[i].size)))
+		if (!(graph->curr_paths[i].path[1] = malloc(sizeof(int) * graph->next_paths[i].size)))
 			return (0);
 		j = -1;
 		while (++j < graph->next_paths[i].size)
@@ -41,25 +41,25 @@ int		cp_paths(t_graph *graph)
 	}
 	free_paths(graph, 1);
 	return (1);
- }
+}
 
 int		cmp_paths(t_graph *graph)
 {
 	bfs(graph);
-	if(block_links(graph)) //no path found from bfs to block it
+	if (block_links(graph))
 	{
-		if (!get_paths(graph))   //malloc prblm
-			return(0);
+		if (!get_paths(graph))
+			return (0);
 		ft_count(graph);
 		if (!graph->curr_paths)
 		{
-			if (!cp_paths(graph))			//malloc prblm
-				return(0);
+			if (!cp_paths(graph))
+				return (0);
 		}
-		else if(graph->count_curr_paths >= graph->count_next_paths)
+		else if (graph->count_curr_paths >= graph->count_next_paths)
 		{
-			if (!cp_paths(graph))			//malloc prblm
-				return(0);
+			if (!cp_paths(graph))
+				return (0);
 		}
 		else
 			return (-1);
@@ -73,9 +73,10 @@ int		optimal_paths(t_graph *graph)
 {
 	int	ret;
 
-	while ((ret = cmp_paths(graph)) > 0);
+	while ((ret = cmp_paths(graph)) > 0)
+		;
 	if (ret == 0)
-		return (0); //malloc prblm
+		return (0);
 	else if (ret == -1 && graph->count_next_paths == 0)
 		return (0);
 	else if (ret == -1)

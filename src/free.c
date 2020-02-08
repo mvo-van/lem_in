@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 03:56:09 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/02 19:23:52 by hmidoun          ###   ########.fr       */
+/*   Updated: 2020/02/08 17:19:04 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void		free_paths(t_graph *graph, int flag)
 	int	i;
 
 	i = -1;
-	if ((flag == 1 || flag == 2)&& graph->next_paths)
+	if ((flag == 1 || flag == 2) && graph->next_paths)
 	{
 		while (++i < graph->nbr_next_paths)
 		{
@@ -67,7 +67,7 @@ void		free_paths(t_graph *graph, int flag)
 	}
 }
 
-int			free_graph(t_graph *graph)
+int		free_graph(t_graph *graph)
 {
 	int	i;
 
@@ -75,24 +75,18 @@ int			free_graph(t_graph *graph)
 	if (graph->links)
 	{
 		while (++i < graph->nbr_n)
-		{
 			if (graph->links[i])
 				free(graph->links[i]);
-		}
 		free(graph->links);
 	}
 	if (graph->stack_path)
 		free(graph->stack_path);
-	// if (graph->paths_order)
-	// 	free(graph->paths_order);
 	i = -1;
 	if (graph->tmp_path)
 	{
 		while (++i < graph->nbr_n)
-		{
 			if (graph->tmp_path[i])
 				free(graph->tmp_path[i]);
-		}
 		free(graph->tmp_path);
 	}
 	free_paths(graph, 2);

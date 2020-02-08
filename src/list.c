@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/04 19:54:27 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/08 17:37:47 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ t_node	*ft_creat_salle(t_node *salle, int flag)
 
 t_node	*ft_prev_salle(t_node *salle)
 {
-	while (salle && salle->prev){
-		salle = salle->prev;}
+	while (salle && salle->prev)
+		salle = salle->prev;
 	return (salle);
 }
 

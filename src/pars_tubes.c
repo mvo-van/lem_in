@@ -6,13 +6,66 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/04 14:20:05 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/08 17:54:56 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int			**ft_tab_zero(int **tab, int size, int n_node)
+int		check_link(char *line)
+{
+	int	j;
+	int	count;
+
+	count = 0;
+	j = 0;
+	if (line[0] == '#')
+		return (0);
+	while (line[j])
+	{
+		if (line[j] == '-')
+		{
+			count++;
+			if (count > 1)
+				return (0);
+		}
+		j++;
+	}
+	if (count == 1)
+		return (1);
+	return (0);
+}
+
+int		get_link(char *line, t_node *salle, t_graph *graph)
+{
+	char	**tab;
+	int		i;
+	int		link_1;
+	int		link_2;
+
+	i = -1;
+	if (line[0] == ' ')
+		return (FLAG_ERREUR);
+	tab = ft_strsplit(line, '-');
+	while (tab[++i])
+		if (i == 0)
+			link_1 = ft_verif_salle_name(tab[0], salle);
+		else if (i == 1)
+			link_2 = ft_verif_salle_name(tab[1], salle);
+	ft_free_tab(tab);
+	if (link_1 == -1 || link_2 == -1 || i != 2)
+		return (FLAG_ERREUR);
+	else
+	{
+		graph->links[link_1][link_2] = 1;
+		graph->links[link_2][link_1] = 1;
+	}
+	if (i == 2)
+		return (1);
+	return (FLAG_ERREUR);
+}
+
+int		**ft_tab_zero(int **tab, int size, int n_node)
 {
 	int		i;
 	int		j;
@@ -31,7 +84,7 @@ int			**ft_tab_zero(int **tab, int size, int n_node)
 	return (tab);
 }
 
-int			**ft_make_doubtab(t_node *salle)
+int		**ft_make_doubtab(t_node *salle)
 {
 	int		**tab;
 	int		i;
@@ -59,67 +112,15 @@ int			**ft_make_doubtab(t_node *salle)
 	return (ft_tab_zero(tab, i + 1, salle->n_node + 1));
 }
 
-int			ft_has_tun(char *line)
+int		ft_link_pars(t_graph *graph, t_typ *typ, t_node **salle, char *line)
 {
-	int i;
-
-	i = ft_hashtag(line);
-	if (i & FLAG_START || i & FLAG_END)
-		return (FLAG_ERREUR);
-	return (0);
-}
-#include <stdio.h>
-t_point		ft_salle_existe_tun(t_node *salle, char *line, int i)
-{
-	t_point		coord;
-	int			j;
-
-	coord.x = -1;
-	coord.y = -1;
-	salle = ft_next_salle(salle);
-	while (salle)
-	{
-		printf("name %s\n",salle->name);
-		j = 0;
-		while (salle->name[j] && line[j] && salle->name[j] == line[j] && j < i)
-			j++;
-		if (!salle->name[j] && line[j] == '-')
-			coord.x = salle->n_node;
-		j = 1;
-		while (salle->name[j - 1] && line[j + i] &&
-			salle->name[j - 1] == line[j + i])
-			j++;
-		if ((!salle->name[j - 1]) && (!line[j + i]))
-			coord.y = salle->n_node;
-		salle = salle->prev;
-	}
-	return (coord);
-}
-#include <stdio.h>
-int			ft_pars_tun(char *line, t_node **salle, int ***tab)
-{
-	int			j;
-	t_point		coord;
-
-	j = 0;
-	if (line[0] == '#')
-		return (ft_has_tun(line));
-	else
-	{
-		j = 0;
-		while (line[j] && line[j] != '-')
-		{
-			if (line[j] == ' ' || line[j] == '\t')
-			{
-				return (FLAG_ERREUR);
-			}
-			j++;
-		}
-		coord = ft_salle_existe_tun(*salle, line, j);
-		if (coord.x == -1 || coord.y == -1)
-			return (FLAG_ERREUR);
-		(*tab)[coord.x][coord.y] = 1;
-		(*tab)[coord.y][coord.x] = 1;
-		return (0);
-	}
+	if (!((typ->flag & FLAG_START) && (typ->flag & FLAG_END)) ||
+		!(check_link(line)))
+		return (ft_free(graph->links, salle, line, 1));
+	else if (typ->tun == 0)
+		ft_creat_tab_link(graph, (*salle));
+	typ->tun = 1;
+	if (typ->ret == 0 && (get_link(line, (*salle), graph) == FLAG_ERREUR))
+		return (ft_free(graph->links, salle, line, 1));
+	return (1);
 }

@@ -6,17 +6,16 @@
 /*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 03:23:33 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/01/28 10:22:02 by hmidoun          ###   ########.fr       */
+/*   Updated: 2020/02/07 00:52:30 by hmidoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int		block_links(t_graph *graph)
+int			block_links(t_graph *graph)
 {
 	int		i;
 	int		j;
-	//int		k;
 
 	i = 1;
 	if (graph->tmp_path[i][0] == -1)
@@ -76,12 +75,12 @@ int			get_paths(t_graph *graph)
 	i[2] = 0;
 	while (n >= 0 && ++i[2] < graph->nbr_n)
 	{
-		if (!(graph->next_paths[n].path = malloc(sizeof(int [2]) * graph->nbr_n)))
+		if (!(graph->next_paths[n].path =
+					malloc(sizeof(int [2]) * graph->nbr_n)))
 			return (0);
-		if (!(graph->next_paths[n].path[0]= malloc(sizeof(int) * graph->nbr_n)))
+		if (!(graph->next_paths[n].path[0] =
+					malloc(sizeof(int) * graph->nbr_n)))
 			return (0);
-		// if (!(graph->next_paths[n].path[1]= malloc(sizeof(int) * graph->nbr_n)))
-		// 	return (0);
 		i[0] = 0;
 		i[1] = i[2] - 1;
 		graph->next_paths[n].size = 0;

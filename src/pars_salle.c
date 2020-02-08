@@ -6,116 +6,59 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/06 11:53:44 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/08 17:41:57 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-int			ft_has_salle(char *line, t_node **salle, int flag, int ***tab)
+int		get_salle(char *line, t_node *salle)
 {
-	static int	start = 0;
-	int			i;
-	int			j;
+	char	**tab;
+	int		i;
+	t_point	coor;
 
-	i = ft_hashtag(line);
-	if (!(*line) || (line[0] == '#' && flag))
+	i = -1;
+	if (line[0] == ' ')
 		return (FLAG_ERREUR);
-	if (i & FLAG_START || i & FLAG_END)
-	{
-		if (start & i || flag)
-			return (FLAG_ERREUR);
-		start |= (i & FLAG_START ? FLAG_START : FLAG_END);
-		if (get_next_line(0, &line))
+	tab = ft_strsplit(line, ' ');
+	while (tab[++i])
+		if (i == 0)
 		{
-			ft_putstr(line);
-			ft_putchar('\n');
-			j = ft_pars_salle(line, salle, i, tab);
-			free(line);
-			return (j + i);
+			if (ft_verif_salle_name(tab[0], salle) == -1)
+				salle->name = ft_strdup(tab[0]);
+			else
+				break ;
+		}
+		else if (i == 1 || i == 2)
+			coor = ft_coor(coor, i, tab);
+	ft_free_tab(tab);
+	if (i == 3 && (ft_verif_salle_coor(coor.x, coor.y, salle) == -1))
+	{
+		salle->coor = coor;
+		return (1);
+	}
+	return (FLAG_ERREUR);
+}
+
+int		ft_room_pars(t_graph *graph, t_typ *typ, t_node **salle, char **line)
+{
+	if (typ->ret == FLAG_START || typ->ret == FLAG_END)
+	{
+		if (typ->flag & typ->ret)
+			return (ft_free(graph->links, salle, *line, 1));
+		free(*line);
+		if (get_next_line(0, line) > 0)
+		{
+			ft_putstr(*line);
+			ft_putstr("\n");
 		}
 		else
-			return (FLAG_ERREUR);
+			return (ft_free(graph->links, salle, *line, 1));
+		typ->flag |= typ->ret;
 	}
-	return (0);
-}
-
-int			ft_salle_existe(t_node *salle, char *line, int i, t_point coord)
-{
-	int		j;
-
-	salle = ft_next_salle(salle);
-	while (salle)
-	{
-		j = 0;
-		if (coord.x == salle->coor.x && coord.y == salle->coor.y)
-			return (1);
-		while (salle->name[j] && line[j] && salle->name[j] == line[j] && j < i)
-			j++;
-		if (!salle->name[j] && line[j] == ' ')
-			return (1);
-		salle = salle->prev;
-	}
-	return (0);
-}
-
-t_point		ft_pars_coord(int j, char *line)
-{
-	t_point		coord;
-	int			i;
-
-	i = 1;
-	coord.x = -1;
-	coord.y = -1;
-	while (line[j + i] && line[j + i] != ' ')
-	{
-		if (!ft_isdigit(line[j + i]))
-			return (coord);
-		i++;
-	}
-	coord.x = ft_atoi(line + j);
-	j += i;
-	i = 1;
-	while (line[j + i])
-	{
-		if (!ft_isdigit(line[j + i]))
-			return (coord);
-		i++;
-	}
-	if (i == 1)
-		return (coord);
-	coord.y = ft_atoi(line + j);
-	return (coord);
-}
-#include <stdio.h>
-int			ft_pars_salle(char *line, t_node **salle, int flag, int ***tab)
-{
-	int			j;
-	t_point		coord;
-	char		*name;
-
-	if (line[0] == '#' || !(*line))
-		return (ft_has_salle(line, salle, flag, tab));
-	else
-	{
-		j = 0;
-		while (line[j] && line[j] != ' ' && line[j] != '\t')
-			j++;
-		if (line[j] != ' ' && line[j] != '\t')
-		{
-			if (!(*tab = ft_make_doubtab(*salle)))
-				return (FLAG_ERREUR);
-			return (DEF_TUN);
-		}
-		coord = ft_pars_coord(j, line);
-		if (coord.x == -1 || coord.y == -1 ||
-			ft_salle_existe(*salle, line, j, coord))
-			return (FLAG_ERREUR);
-		name = ft_strnew(j + 1);
-		//name = ft_memcpy(ft_memalloc(j + 1), line, j);
-		name = ft_strncpy(name, line , j);
-		*(salle) = ft_creat_salle(*salle, flag);
-		free(name);
-		return (DEF_SALLE);
-	}
+	(*salle) = ft_creat_salle((*salle), typ->ret);
+	if (get_salle(*line, (*salle)) == FLAG_ERREUR)
+		return (ft_free(graph->links, salle, *line, 1));
+	return (1);
 }
