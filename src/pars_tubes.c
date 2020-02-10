@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/08 17:54:56 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/10 18:04:53 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		check_link(char *line)
 		{
 			count++;
 			if (count > 1)
-				return (0);
+				return (2);
 		}
 		j++;
 	}
@@ -115,7 +115,7 @@ int		**ft_make_doubtab(t_node *salle)
 int		ft_link_pars(t_graph *graph, t_typ *typ, t_node **salle, char *line)
 {
 	if (!((typ->flag & FLAG_START) && (typ->flag & FLAG_END)) ||
-		!(check_link(line)))
+		(check_link(line) != 1))
 		return (ft_free(graph->links, salle, line, 1));
 	else if (typ->tun == 0)
 		ft_creat_tab_link(graph, (*salle));

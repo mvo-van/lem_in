@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/08 17:36:22 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/10 18:01:00 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int		ft_pars_four(t_graph *graph)
 		}
 		free(line);
 	}
+	write(1, "ERROR\n", 7);
 	return (FLAG_ERREUR);
 }
 
@@ -94,7 +95,7 @@ int		ft_pars_suite(t_graph *graph, t_node **salle)
 		ft_putstr(line);
 		ft_putstr("\n");
 		typ.ret = ft_hashtag(line);
-		typ.res = ((typ.res == 1) ? 1 : check_link(line));
+		typ.res = ((typ.res != 0) ? typ.res : check_link(line));
 		if (typ.ret != FLAG_CMT && !(typ.res))
 		{
 			if (ft_room_pars(graph, &typ, salle, &line) == FLAG_ERREUR)
