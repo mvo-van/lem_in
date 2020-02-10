@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   paths_selection.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hmidoun <hmidoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 07:28:44 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/07 00:56:36 by hmidoun          ###   ########.fr       */
+/*   Updated: 2020/02/10 16:56:49 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
+
+int		cp_paths_malloc(t_graph *graph, int i)
+{
+	if (!(graph->curr_paths[i].path = malloc(sizeof(int *)
+													* 2)))
+		return (0);
+	if (!(graph->curr_paths[i].path[0] = malloc(sizeof(int) *
+								graph->next_paths[i].size)))
+		return (0);
+	if (!(graph->curr_paths[i].path[1] = malloc(sizeof(int) *
+								graph->next_paths[i].size)))
+		return (0);
+	return (1);
+}
 
 int		cp_paths(t_graph *graph)
 {
@@ -21,15 +35,12 @@ int		cp_paths(t_graph *graph)
 	free_paths(graph, 0);
 	graph->nbr_curr_paths = graph->nbr_next_paths;
 	graph->count_curr_paths = graph->count_next_paths;
-	if (!(graph->curr_paths = malloc(sizeof(t_all_paths) * graph->nbr_curr_paths)))
+	if (!(graph->curr_paths = malloc(sizeof(t_all_paths) *
+								graph->nbr_curr_paths)))
 		return (0);
 	while (++i < graph->nbr_curr_paths)
 	{
-		if (!(graph->curr_paths[i].path = malloc(sizeof(int *) * 2)))
-			return (0);
-		if (!(graph->curr_paths[i].path[0] = malloc(sizeof(int) * graph->next_paths[i].size)))
-			return (0);
-		if (!(graph->curr_paths[i].path[1] = malloc(sizeof(int) * graph->next_paths[i].size)))
+		if (!cp_paths_malloc(graph, i))
 			return (0);
 		j = -1;
 		while (++j < graph->next_paths[i].size)

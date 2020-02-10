@@ -6,13 +6,13 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 03:56:09 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/08 17:19:04 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/10 16:56:03 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void		free_paths(t_graph *graph, int flag)
+void		free_paths_next(t_graph *graph, int flag)
 {
 	int	i;
 
@@ -38,6 +38,12 @@ void		free_paths(t_graph *graph, int flag)
 			graph->next_paths = NULL;
 		}
 	}
+}
+
+void		free_paths_curr(t_graph *graph, int flag)
+{
+	int	i;
+
 	i = -1;
 	if ((flag == 0 || flag == 2) && graph->curr_paths)
 	{
@@ -46,15 +52,9 @@ void		free_paths(t_graph *graph, int flag)
 			if (&graph->curr_paths[i])
 			{
 				if (graph->curr_paths[i].path[0])
-				{
 					free(graph->curr_paths[i].path[0]);
-					graph->curr_paths[i].path[0] = NULL;
-				}
 				if (graph->curr_paths[i].path[1])
-				{
 					free(graph->curr_paths[i].path[1]);
-					graph->curr_paths[i].path[1] = NULL;
-				}
 				if (graph->curr_paths[i].path)
 					free(graph->curr_paths[i].path);
 			}
@@ -67,7 +67,13 @@ void		free_paths(t_graph *graph, int flag)
 	}
 }
 
-int		free_graph(t_graph *graph)
+void		free_paths(t_graph *graph, int flag)
+{
+	free_paths_next(graph, flag);
+	free_paths_curr(graph, flag);
+}
+
+int			free_graph(t_graph *graph)
 {
 	int	i;
 
