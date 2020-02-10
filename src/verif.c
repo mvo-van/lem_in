@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/24 17:50:39 by mvo-van-          #+#    #+#             */
-/*   Updated: 2020/02/08 17:34:30 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/10 19:07:13 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ int		ft_hashtag(char *line)
 int		ft_verif_salle_coor(int x, int y, t_node *salle)
 {
 	salle = ft_next_salle(salle);
+	if (x == -1 || y == -1)
+		return (0);
 	while (salle)
 	{
 		if (salle->coor.x == x && salle->coor.y == y)
