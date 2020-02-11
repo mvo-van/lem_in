@@ -6,7 +6,7 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/16 12:13:50 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/08 17:33:23 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/11 10:55:28 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,21 +21,24 @@
 # define FLAG_ERREUR	16
 # define FLAG_CMT		32
 
-typedef struct	s_typ
+typedef struct s_typ	t_typ;
+struct	s_typ
 {
-	int		ret;
-	int		res;
-	int		flag;
-	int		tun;
-}				t_typ;
+	int				ret;
+	int				res;
+	int				flag;
+	int				tun;
+};
 
-typedef struct	s_point
+typedef struct s_point	t_point;
+struct	s_point
 {
-	int		x;
-	int		y;
-}				t_point;
+	int				x;
+	int				y;
+};
 
-typedef struct	s_node
+typedef struct s_node	t_node;
+struct	s_node
 {
 	struct s_node	*prev;
 	char			*name;
@@ -44,7 +47,7 @@ typedef struct	s_node
 	int				end;
 	t_point			coor;
 	struct s_node	*next;
-}				t_node;
+};
 
 typedef struct s_all_paths	t_all_paths;
 struct	s_all_paths
@@ -54,7 +57,7 @@ struct	s_all_paths
 	int				f;
 };
 
-typedef struct s_graph	t_graph;
+typedef struct s_graph		t_graph;
 struct	s_graph
 {
 	int				nbr_f;
