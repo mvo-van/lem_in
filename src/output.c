@@ -6,13 +6,13 @@
 /*   By: mvo-van- <mvo-van-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 07:27:14 by hmidoun           #+#    #+#             */
-/*   Updated: 2020/02/14 11:10:20 by mvo-van-         ###   ########.fr       */
+/*   Updated: 2020/02/14 13:59:34 by mvo-van-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lem_in.h"
 
-void	output_str(t_graph graph, int i, int j)
+void		output_str(t_graph graph, int i, int j)
 {
 	ft_putchar('L');
 	ft_putnbr(graph.curr_paths[i].path[1][j + 1]);
@@ -45,7 +45,7 @@ static void	output_algo2(t_graph graph, int i, int *f)
 	}
 }
 
-void	output_algo(t_graph graph)
+void		output_algo(t_graph graph)
 {
 	int i;
 	int f;
